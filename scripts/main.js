@@ -1,4 +1,7 @@
-// Toggle mobile menu
+window.addEventListener('load', () => {
+  document.body.classList.add('loaded');
+});
+
 const toggleBtn = document.querySelector('.menu-toggle');
 const navLinks = document.querySelector('.nav-links');
 
@@ -44,17 +47,19 @@ document.querySelectorAll('.faq-item .question').forEach((question) => {
 
 const faders = document.querySelectorAll('.fade-in');
 
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target); // animate only once
-      }
-    });
-  }, {
-    threshold: 0.15
-  });
+const appearOptions = {
+  threshold: 0.2,
+  rootMargin: "0px 0px -50px 0px"
+};
 
-  faders.forEach(fade => {
-    observer.observe(fade);
+const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add("visible");
+    observer.unobserve(entry.target);
+  });
+}, appearOptions);
+
+faders.forEach(fader => {
+  appearOnScroll.observe(fader);
 });
