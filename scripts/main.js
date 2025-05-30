@@ -41,3 +41,20 @@ document.querySelectorAll('.faq-item .question').forEach((question) => {
     parent.classList.toggle('open');
   });
 });
+
+const faders = document.querySelectorAll('.fade-in');
+
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // animate only once
+      }
+    });
+  }, {
+    threshold: 0.15
+  });
+
+  faders.forEach(fade => {
+    observer.observe(fade);
+});
